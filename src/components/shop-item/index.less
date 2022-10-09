@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  padding: 8px 0;
+}
+.contentLeft {
+  width: 146px;
+}
+
+.contentRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.title {
+  font-size: 18px;
+}
+.distance {
+  color: lightgray;
+}
+
+.middle {
+  overflow: hidden;
+  /*  超出的文本隐藏:最多展示2行，超出部分省略 */
+  display: -webkit-box;
+  /* 将对象作为弹性伸缩盒子模型显示。 */
+  -webkit-line-clamp: 2;
+  /* 这个属性不是css的规范属性，需要组合上面两个属性，表示显示的行数。 */
+  -webkit-box-orient: vertical;
+  /* 从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式） */
+  color: gray;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+}
+
+.newPrice {
+  font-size: 18px;
+  font-weight: bolder;
+  color: red;
+}
+.oldPrice {
+  color: gray;
+  text-decoration: line-through;
+  margin-left: 6px;
+  font-size: 16px;
+}
+
+.number {
+  font-size: 16px;
+  color: lightgray;
+}

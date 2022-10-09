@@ -1,0 +1,49 @@
+.search-header-container {
+  display: flex;
+  /* 固定导航栏，保持顶部固定*/
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+  align-items: center;
+  padding: 0 8px;
+  height: 44px;
+  background-color: rgb(233, 32, 61);
+}
+
+.search-header-left {
+  color: #fff;
+  width: 60px;
+  i {
+    font-size: 20px;
+    margin: 0 5px;
+    vertical-align: middle;
+  }
+}
+
+.search-header-middle {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 5px 0;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 0; // 块级元素中使用内联元素会出现幽灵结点导致计算的高度出现问题
+
+  i {
+    margin: 0 8px;
+    font-size: 16px;
+  }
+  input {
+    height: 20px;
+    font-size: 14px;
+  }
+}
+
+.search-header-right {
+  width: 40px;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+}
