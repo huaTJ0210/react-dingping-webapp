@@ -6,7 +6,7 @@ export const getCatagoryList = () => {
 }
 
 // 获取推荐广告列表
-export const getAdList = () => {
+export const getDiscountList = () => {
   return request.request({ url: '/getAD' })
 }
 

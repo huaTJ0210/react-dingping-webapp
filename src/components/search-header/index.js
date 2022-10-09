@@ -1,5 +1,7 @@
 /* eslint-disable react/static-property-placement */
 import React, { Component } from 'react'
+import { Space } from 'antd-mobile'
+import { SearchOutline } from 'antd-mobile-icons'
 import style from './index.less'
 import font from '@fonts/font.less'
 
@@ -24,8 +26,10 @@ export default class SearchHeader extends Component {
             this.props.toSearchPage()
           }}
         >
-          <i className={font['icon-search']} />
-          <input placeholder="请输入要查询的内容" disabled />
+          <Space>
+            <SearchOutline />
+            <span>请输入关键字</span>
+          </Space>
         </div>
         <div
           className={style['search-header-right']}

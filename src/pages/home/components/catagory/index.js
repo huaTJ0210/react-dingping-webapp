@@ -2,29 +2,8 @@ import React, { Component } from 'react'
 
 import CollectionView from '@components/collection-view'
 import { Swiper } from 'antd-mobile'
-import { getCatagoryList } from '@services/cms'
 
 export default class Catagory extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      catagoryList: [],
-    }
-  }
-  componentDidMount() {
-    this.getCatagory()
-  }
-
-  getCatagory() {
-    getCatagoryList()
-      .then((res) => {
-        this.setState({ catagoryList: res })
-      })
-      .catch(() => {
-        //
-      })
-  }
-
   SwiperComponent() {
     return (
       <Swiper
@@ -42,13 +21,17 @@ export default class Catagory extends Component {
           },
         }}
       >
-        {this.state.catagoryList.map((item, index) => {
-          return (
-            <Swiper.Item key={index}>
-              <CollectionView rowOfItems={5} dataList={item} />
-            </Swiper.Item>
-          )
-        })}
+        {this.props.catagoryList.length > 0 ? (
+          this.props.catagoryList.map((item, index) => {
+            return (
+              <Swiper.Item key={index}>
+                <CollectionView rowOfItems={5} dataList={item} />
+              </Swiper.Item>
+            )
+          })
+        ) : (
+          <Swiper.Item />
+        )}
       </Swiper>
     )
   }

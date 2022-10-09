@@ -18,7 +18,7 @@ export const actionCreators = { updateCity: updateCityActionCreator }
 
 // reducer
 const initialState = {
-  cityName: null,
+  cityName: '北京',
 }
 export function userInfoReducer(state = initialState, action) {
   switch (action.type) {

@@ -7,7 +7,7 @@ const shopList = [
     oldPrice: '39',
     distance: '120m',
     number: '389',
-    id: Math.random().toString().slice(2),
+    id: 1,
   },
   {
     img: 'kaiyuan.png',
@@ -16,7 +16,7 @@ const shopList = [
     price: '98',
     distance: '140m',
     number: '689',
-    id: Math.random().toString().slice(2),
+    id: 2,
   },
   {
     img: 'fuzhuang.png',
@@ -26,7 +26,7 @@ const shopList = [
     oldPrice: '2088',
     distance: '160',
     number: '106',
-    id: Math.random().toString().slice(2),
+    id: 3,
   },
   {
     img: 'hunsha.png',
@@ -36,7 +36,7 @@ const shopList = [
     oldPrice: '3099',
     distance: '1.6km',
     number: '58',
-    id: Math.random().toString().slice(2),
+    id: 4,
   },
   {
     img: 'chuanchuan.png',
@@ -45,7 +45,7 @@ const shopList = [
     price: '0',
     distance: '160',
     number: '1426',
-    id: Math.random().toString().slice(2),
+    id: 5,
   },
 ]
 
