@@ -1,40 +1,35 @@
 /* eslint-disable react/static-property-placement */
 import React, { Component } from 'react'
-import { Space } from 'antd-mobile'
-import { SearchOutline } from 'antd-mobile-icons'
 import style from './index.less'
 import font from '@fonts/font.less'
+import SearchInput from '../search-input'
 
 import PropTypes from 'prop-types'
 
 export default class SearchHeader extends Component {
   render() {
+    const { push, title } = this.props
     return (
       <div className={style['search-header-container']}>
         <span
           className={style['search-header-left']}
           onClick={() => {
-            this.props.toDistrictPage()
+            push('/city')
           }}
         >
-          {this.props.title}
+          {title}
           <i className={font['icon-angle-down']} />
         </span>
-        <div
-          className={style['search-header-middle']}
-          onClick={() => {
-            this.props.toSearchPage()
+        <SearchInput
+          style={{ flex: 1 }}
+          searchInputHandler={(value) => {
+            push(`/search/${value}`)
           }}
-        >
-          <Space>
-            <SearchOutline />
-            <span>请输入关键字</span>
-          </Space>
-        </div>
+        />
         <div
           className={style['search-header-right']}
           onClick={() => {
-            this.props.toUserOrLoginPage()
+            push('/user')
           }}
         >
           <i className={font['icon-user']} />

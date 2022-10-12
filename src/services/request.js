@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
   timeout: 10 * 1000,
-  baseURL: 'http://localhost:9000/api',
+  baseURL: 'http://localhost:3000',
 })
 
 instance.interceptors.request.use(
@@ -21,7 +21,10 @@ instance.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     if (response.status === 200) {
+      // 此处需要处理data中的code值；这部分会设置业务错误编码，已对应不同的错误处理规则
       return response.data
+    } else {
+      return Promise.reject(new Error('response error'))
     }
   },
   (error) => {

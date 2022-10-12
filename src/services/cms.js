@@ -11,6 +11,11 @@ export const getDiscountList = () => {
 }
 
 // 获取商店列表
-export const getShopList = () => {
-  return request.request({ url: '/getShopList' })
+export const getShopList = (params) => {
+  return request.request({ url: '/getShopList', params: params })
+}
+
+// 获取商店详情
+export const getShopDetail = (params) => {
+  return request.request({ url: '/getShopDetail', params: params })
 }

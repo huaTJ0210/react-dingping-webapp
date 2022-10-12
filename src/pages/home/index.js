@@ -1,25 +1,29 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { List, PullToRefresh, InfiniteScroll } from 'antd-mobile'
 
 import styles from './index.less'
 
 import SearchHeader from '@components/search-header'
 import ShopItem from '@components/shop-item'
-import Catagory from './components/catagory/index'
-import Discount from './components/discount/index'
+import Catagory from './components/catagory'
+import Discount from './components/discount'
 
-import { getShopList, getCatagoryList, getDiscountList } from '@services/cms'
+import { cmsActionCreators } from '@store/cms'
 
-class Home extends Component {
+import { getShopList } from '@services/cms'
+
+class Home extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       shopList: [],
-      catagoryList: [],
-      discountList: [],
       hasMore: true,
     }
+    this.currentPage = 0
+    this.loadData = this.loadData.bind(this)
+    this.loadMoreShop = this.loadMoreShop.bind(this)
   }
 
   componentDidMount() {
@@ -27,18 +31,14 @@ class Home extends Component {
   }
 
   loadData() {
+    const { getCatagoryList, getDiscountList } = this.props
     // 获取分类列表
-    getCatagoryList().then((res) => {
-      this.setState({ catagoryList: res })
-    })
+    getCatagoryList()
     // 获取优惠列表
-    getDiscountList().then((res) => {
-      this.setState({
-        discountList: res,
-      })
-    })
+    getDiscountList()
     // 获取商店列表
-    getShopList().then((res) => {
+    this.currentPage = 0
+    getShopList({ currentPage: 0 }).then((res) => {
       this.setState({
         shopList: res,
         hasMore: true,
@@ -47,57 +47,32 @@ class Home extends Component {
   }
 
   loadMoreShop() {
-    getShopList().then((res) => {
-      this.setState(
-        (preState) => ({
+    getShopList({ currentPage: ++this.currentPage }).then((res) => {
+      // 当res返回为空数组则代表没有更多的数据了
+      if (res.length === 0) {
+        this.setState({
+          hasMore: false,
+        })
+      } else {
+        this.setState((preState) => ({
           shopList: preState.shopList.concat(res),
-        }),
-        () => {
-          // 模拟结束加载更多
-          if (this.state.shopList.length > 10) {
-            this.setState({
-              hasMore: false,
-            })
-          }
-        },
-      )
+        }))
+      }
     })
   }
 
-  // 导航到地区选择页面
-  toDistrictPage() {
-    this.props.history.push('/city')
-  }
-  // 导航到搜索页面
-  toSearchPage() {
-    this.props.history.push('/search')
-  }
-  // 导航到登录或者个人页面
-  toUserOrLoginPage() {
-    this.props.history.push('/user')
-  }
-
   render() {
+    const { history } = this.props
     return (
       <div>
         {/* 头部导航栏 */}
         <SearchHeader
           title={this.props.cityName}
-          toDistrictPage={() => {
-            this.toDistrictPage()
-          }}
-          toSearchPage={() => {
-            this.toSearchPage()
-          }}
-          toUserOrLoginPage={() => {
-            this.toUserOrLoginPage()
+          push={(path) => {
+            this.props.history.push(path)
           }}
         />
-        <PullToRefresh
-          onRefresh={() => {
-            this.loadData()
-          }}
-        >
+        <PullToRefresh onRefresh={this.loadData}>
           <List
             style={{
               '--border-inner': 'none',
@@ -106,29 +81,30 @@ class Home extends Component {
           >
             <List.Item key="home-catagory">
               {/* 分类 */}
-              <Catagory catagoryList={this.state.catagoryList} />
+              <Catagory catagoryList={this.props.catagoryList} />
             </List.Item>
             <List.Item key="home-ad" className={styles['home-ad']}>
               {/* 广告推荐 */}
-              <Discount discountList={this.state.discountList} />
+              <Discount discountList={this.props.discountList} />
             </List.Item>
           </List>
           <List header="猜你喜欢">
             {this.state.shopList.map((item) => {
               return (
-                <List.Item key={item.id + Math.floor(Math.random() * 100000)}>
+                <List.Item
+                  key={item.id}
+                  onClick={() => {
+                    history.push(`/detail/${item.id}`)
+                  }}
+                  arrow={false}
+                >
                   <ShopItem {...item} />
                 </List.Item>
               )
             })}
           </List>
         </PullToRefresh>
-        <InfiniteScroll
-          loadMore={() => {
-            this.loadMoreShop()
-          }}
-          hasMore={this.state.hasMore}
-        />
+        <InfiniteScroll loadMore={this.loadMoreShop} hasMore={this.state.hasMore} />
       </div>
     )
   }
@@ -136,6 +112,10 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   cityName: state.userInfo.cityName,
+  catagoryList: state.cms.catagoryList,
+  discountList: state.cms.discountList,
 })
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = (dispatch) => bindActionCreators(cmsActionCreators, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

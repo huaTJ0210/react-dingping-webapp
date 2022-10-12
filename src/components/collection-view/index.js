@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import style from './index.less'
 
-export default class CollectionView extends Component {
+class CollectionView extends Component {
   render() {
     const dataList = this.props.dataList
     const rowOfItems = this.props.rowOfItems //  一行有几个：rowOfItems
@@ -11,7 +12,13 @@ export default class CollectionView extends Component {
         {dataList.length > 0 &&
           dataList.map((item) => {
             return (
-              <li key={item.id} style={{ width: `${width}%` }}>
+              <li
+                key={item.id}
+                style={{ width: `${width}%` }}
+                onClick={() => {
+                  this.props.history.push('/search')
+                }}
+              >
                 <img src={item.img} />
                 <h3>{item.title}</h3>
               </li>
@@ -21,3 +28,5 @@ export default class CollectionView extends Component {
     )
   }
 }
+
+export default withRouter(CollectionView)

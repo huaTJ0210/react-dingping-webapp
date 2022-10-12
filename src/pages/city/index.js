@@ -1,31 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actionCreators } from '@store/userinfo'
-import { NavBar } from 'antd-mobile'
+import { userInfoActionCreators } from '@store/userinfo'
 import styles from './index.less'
+
+import NavgationBar from '@components/nav-bar'
 import CurrentCity from './components/current-city'
 import CityList from './components/city-list'
 
 class City extends Component {
-  back() {
-    this.props.history.go(-1)
-  }
+  // #region 业务实例方法
   changeCity(cityName) {
     this.props.updateCity(cityName)
   }
+  // #endregion
+
   render() {
     const { cityName } = this.props.userInfo
     return (
       <div className={styles.container}>
-        <NavBar
-          className={styles.navBar}
-          onBack={() => {
-            this.back()
-          }}
-        >
-          选择城市
-        </NavBar>
+        <NavgationBar>选择城市</NavgationBar>
         <CurrentCity title={cityName} />
         <CityList
           changeCity={(cityName) => {
@@ -40,6 +34,6 @@ class City extends Component {
 const mapStateToProps = (state) => ({
   userInfo: state.userInfo,
 })
-const mapDispatchToProps = (dispatch) => bindActionCreators(actionCreators, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators(userInfoActionCreators, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(City)

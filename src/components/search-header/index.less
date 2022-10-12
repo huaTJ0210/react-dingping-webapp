@@ -5,7 +5,7 @@
   left: 0;
   top: 0;
   right: 0;
-  z-index: 99999;
+  z-index: var(--navbar-z-index);
   align-items: center;
   padding: 0 8px;
   height: 44px;
@@ -21,13 +21,8 @@
     vertical-align: middle;
   }
 }
-
-.search-header-middle {
+.searchInput {
   flex: 1;
-  border: 1px solid #fff;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: #fff;
 }
 
 .search-header-right {
